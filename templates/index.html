@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wine Quality Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .prediction-form {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        .title {
+            color: #2c3e50;
+            margin-bottom: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .btn-predict {
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px 30px;
+            border: none;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .btn-predict:hover {
+            background-color: #34495e;
+            transform: translateY(-2px);
+        }
+        .result {
+            margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="prediction-form">
+                    <h2 class="text-center title">Wine Quality Prediction</h2>
+                    <form method="POST" action="{{ url_for('predict') }}">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="fixed_acidity">Fixed Acidity</label>
+                                    <input type="number" step="0.1" class="form-control" id="fixed_acidity" name="fixed_acidity" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="volatile_acidity">Volatile Acidity</label>
+                                    <input type="number" step="0.01" class="form-control" id="volatile_acidity" name="volatile_acidity" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="citric_acid">Citric Acid</label>
+                                    <input type="number" step="0.01" class="form-control" id="citric_acid" name="citric_acid" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="residual_sugar">Residual Sugar</label>
+                                    <input type="number" step="0.1" class="form-control" id="residual_sugar" name="residual_sugar" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="chlorides">Chlorides</label>
+                                    <input type="number" step="0.001" class="form-control" id="chlorides" name="chlorides" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="free_sulfur_dioxide">Free Sulfur Dioxide</label>
+                                    <input type="number" step="0.1" class="form-control" id="free_sulfur_dioxide" name="free_sulfur_dioxide" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="total_sulfur_dioxide">Total Sulfur Dioxide</label>
+                                    <input type="number" step="0.1" class="form-control" id="total_sulfur_dioxide" name="total_sulfur_dioxide" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="density">Density</label>
+                                    <input type="number" step="0.0001" class="form-control" id="density" name="density" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="ph">pH</label>
+                                    <input type="number" step="0.01" class="form-control" id="ph" name="ph" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sulphates">Sulphates</label>
+                                    <input type="number" step="0.01" class="form-control" id="sulphates" name="sulphates" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="alcohol">Alcohol</label>
+                                    <input type="number" step="0.1" class="form-control" id="alcohol" name="alcohol" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-predict">Predict Quality</button>
+                        </div>
+                    </form>
+                    
+                    {% if prediction is defined %}
+                    <div class="result {% if error %}error{% else %}success{% endif %}">
+                        {% if error %}
+                            <p class="mb-0">{{ error }}</p>
+                        {% else %}
+                            <p class="mb-0">Predicted Wine Quality: {{ prediction }}</p>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
